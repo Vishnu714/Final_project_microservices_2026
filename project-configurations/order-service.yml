@@ -1,15 +1,15 @@
 server:
-  port: 8081
+  port:8083
 
 test:
-  message: Hello from product-services!
+  message: this is from order
+
 
   datasource:
     url: jdbc:h2:mem:productdb
     driverClassName: org.h2.Driver
     username: sa
-    password:
-
+    password: 
 
 eureka:
   client:

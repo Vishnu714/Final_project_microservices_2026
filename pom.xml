@@ -27,6 +27,12 @@
     <modules>
         <module>config-server</module>
         <module>product-service</module>
+        <module>inventory-service</module>  
+        <module>auth-service</module>
+        <module>order-service</module>
+        <module>aggregator-service</module> 
+        <module>api-gateway</module>   
+        <module>service-registry</module> 
     </modules>
 
     <!-- Spring Cloud BOM -->

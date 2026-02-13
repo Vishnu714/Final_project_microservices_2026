@@ -11,8 +11,8 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>product-service</artifactId>
-    <name>product-service</name>
+    <artifactId>aggregator-service</artifactId>
+    <name>aggregator-service</name>
 
     <dependencies>
 
@@ -28,7 +28,7 @@
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
 
-        <!-- Eureka Client -->
+        <!-- Eureka Client (will use later) -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
