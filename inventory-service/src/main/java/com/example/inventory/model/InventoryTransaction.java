@@ -4,20 +4,20 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "inventory",
-       uniqueConstraints = @UniqueConstraint(columnNames = "productId"))
+@Table(name = "inventory_transactions")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Inventory {
+public class InventoryTransaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private Long productId;
 
-    @Column(nullable = false)
-    private Integer quantity;
+    private Integer changeQuantity; // + or -
+
+    private String reason; // RESTOCK, ORDER, MANUAL
+
 }

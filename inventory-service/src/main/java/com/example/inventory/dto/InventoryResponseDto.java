@@ -1,5 +1,7 @@
 package com.example.inventory.dto;
 
-public class InventoryResponseDto {
-
-}
+public record InventoryResponseDto(
+        Long id,
+        Long productId,
+        Integer quantity
+) {}
