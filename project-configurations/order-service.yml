@@ -1,15 +1,21 @@
 server:
   port:8083
 
-test:
-  message: this is from order
-
-
+spring:
   datasource:
     url: jdbc:h2:mem:productdb
     driverClassName: org.h2.Driver
     username: sa
-    password: 
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+
+test:
+  message: this is from order
+
 
 eureka:
   client:
