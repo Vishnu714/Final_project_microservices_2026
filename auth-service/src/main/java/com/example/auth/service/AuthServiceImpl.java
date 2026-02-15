@@ -35,23 +35,36 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("Username already exists");
         }
 
-        Role role = roleRepo.findByName("ROLE_USER")
+        // Ensure both roles exist in DB
+        Role userRole = roleRepo.findByName("ROLE_USER")
                 .orElseGet(() ->
                         roleRepo.save(new Role(null, "ROLE_USER")));
+
+        Role adminRole = roleRepo.findByName("ROLE_ADMIN")
+                .orElseGet(() ->
+                        roleRepo.save(new Role(null, "ROLE_ADMIN")));
+
+        // 🔥 Assign ADMIN only if username is "admin"
+        Role assignedRole;
+
+        if (request.username().equalsIgnoreCase("admin")) {
+            assignedRole = adminRole;
+        } else {
+            assignedRole = userRole;
+        }
 
         User user = new User();
         user.setUsername(request.username());
         user.setPassword(passwordEncoder.encode(request.password()));
         user.setEmail(request.email());
-        user.setRoles(Set.of(role));
+        user.setRoles(Set.of(assignedRole));
 
         userRepo.save(user);
 
         String token = jwtConfig.generateToken(
-        user.getUsername(),
-        user.getRoles().stream().toList()
-);
-
+                user.getUsername(),
+                user.getRoles().stream().toList()
+        );
 
         return new AuthResponseDto(token, user.getUsername());
     }
@@ -71,10 +84,9 @@ public class AuthServiceImpl implements AuthService {
         }
 
         String token = jwtConfig.generateToken(
-        user.getUsername(),
-        user.getRoles().stream().toList()
-);
-
+                user.getUsername(),
+                user.getRoles().stream().toList()
+        );
 
         return new AuthResponseDto(token, user.getUsername());
     }

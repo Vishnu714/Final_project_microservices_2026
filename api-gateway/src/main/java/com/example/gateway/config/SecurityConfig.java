@@ -23,13 +23,16 @@ public class SecurityConfig {
 
         return http
                 .csrf(csrf -> csrf.disable())
-                .authorizeExchange(exchange -> exchange
-                        .pathMatchers("/auth/**").permitAll()
+                    .authorizeExchange(exchange -> exchange
                         .pathMatchers(HttpMethod.POST, "/products/**")
+                            .hasRole("ADMIN")
+                        .pathMatchers(HttpMethod.PUT, "/products/**")
+                            .hasRole("ADMIN")
+                        .pathMatchers(HttpMethod.DELETE, "/products/**")
                             .hasRole("ADMIN")
                         .pathMatchers(HttpMethod.GET, "/products/**")
                             .hasAnyRole("USER", "ADMIN")
-                        .anyExchange().authenticated()
+                            .anyExchange().authenticated()
                 )
                 .addFilterBefore(jwtFilter, SecurityWebFiltersOrder.AUTHENTICATION)
                 .build();

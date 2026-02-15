@@ -50,11 +50,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductResponseDto> getAllProducts() {
 
-        return repository.findAll()
-                .stream()
-                .map(this::mapToResponse)
-                .toList();
+        return repository.findByActiveTrue()
+            .stream()
+            .map(this::mapToResponse)
+            .toList();
     }
+
 
     @Override
     public ProductResponseDto updateProduct(Long id, ProductRequestDto request) {
