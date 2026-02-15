@@ -3,17 +3,18 @@ package com.example.product.controller;
 import com.example.product.dto.ProductRequestDto;
 import com.example.product.dto.ProductResponseDto;
 import com.example.product.service.ProductService;
-import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/products")
-public class ConfigServerApplication {
+public class ProductController {
 
     private final ProductService service;
 
-    public ConfigServerApplication(ProductService service) {
+    public ProductController(ProductService service) {
         this.service = service;
     }
 
@@ -30,16 +31,5 @@ public class ConfigServerApplication {
     @GetMapping
     public List<ProductResponseDto> getAll() {
         return service.getAllProducts();
-    }
-
-    @PutMapping("/{id}")
-    public ProductResponseDto update(@PathVariable Long id,
-                                     @Valid @RequestBody ProductRequestDto request) {
-        return service.updateProduct(id, request);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        service.deleteProduct(id);
     }
 }

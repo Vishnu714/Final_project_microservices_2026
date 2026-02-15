@@ -1,5 +1,10 @@
 package com.example.auth.dto;
 
-public class LoginRequestDto {
+import jakarta.validation.constraints.*;
 
-}
+public record LoginRequestDto(
+
+        @NotBlank String username,
+
+        @NotBlank String password
+) {}

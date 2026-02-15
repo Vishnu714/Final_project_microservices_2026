@@ -1,5 +1,6 @@
 package com.example.auth.dto;
 
-public class AuthResponseDto {
-
-}
+public record AuthResponseDto(
+        String token,
+        String username
+) {}
