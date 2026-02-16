@@ -20,7 +20,7 @@ spring:
           uri: lb://auth-service
           predicates:
             - Path=/auth/**
-
+# put the routes to a java configuration class
 
 eureka:
   client:

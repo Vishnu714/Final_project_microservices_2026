@@ -7,6 +7,9 @@ import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+
+
 
 import java.util.List;
 
@@ -21,12 +24,13 @@ public class ProductController {
     }
 
     @PostMapping
-    public ProductResponseDto create(@Valid @RequestBody ProductRequestDto request) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProductResponseDto create(@Valid @RequestBody ProductRequestDto request) {  //201
         return service.createProduct(request);
     }
 
     @GetMapping("/{id}")
-    public ProductResponseDto getById(@PathVariable Long id) {
+    public ProductResponseDto getById(@PathVariable Long id) {  //200
         return service.getProductById(id);
     }
 
