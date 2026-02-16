@@ -20,7 +20,7 @@ public class SecurityConfig {
 
         http
             .csrf(csrf -> csrf.disable())
-            .headers(headers -> headers.frameOptions().disable()) // allow H2 frames
+            .headers(headers -> headers.frameOptions().disable()) 
             .authorizeHttpRequests(auth ->
                 auth
                     .requestMatchers("/auth/**").permitAll()
