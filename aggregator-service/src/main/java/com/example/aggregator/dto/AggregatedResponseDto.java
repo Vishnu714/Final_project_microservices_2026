@@ -1,5 +1,9 @@
 package com.example.aggregator.dto;
 
-public class AggregatedResponseDto {
+import java.util.List;
 
-}
+public record AggregatedResponseDto(
+	ProductDetailsDto product,
+	Object inventoryQuantity,
+	List<OrderSummaryDto> orders
+) {}

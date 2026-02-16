@@ -23,8 +23,10 @@ public class SecurityConfig {
             .headers(headers -> headers.frameOptions().disable()) 
             .authorizeHttpRequests(auth ->
                 auth
-                    .requestMatchers("/auth/**").permitAll()
+                    .requestMatchers("/api/v1/auth/**").permitAll()
                     .requestMatchers("/h2-console/**").permitAll()
+                    .requestMatchers("/v3/api-docs/**","/swagger-ui.html","/swagger-ui/**").permitAll()
+
                     .anyRequest().authenticated()
             );
 

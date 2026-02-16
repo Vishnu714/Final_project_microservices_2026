@@ -7,7 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.*;
 import reactor.core.publisher.Mono;
-import org.springframework.web.server.WebFilter;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +23,13 @@ public class JwtAuthenticationFilter implements WebFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange,
                              WebFilterChain chain) {
+
+         String path = exchange.getRequest().getPath().value();
+
+        //  Skip authentication for auth endpoints
+        if (path.startsWith("/api/v1/auth")) {
+                return chain.filter(exchange);
+        }
 
         String authHeader = exchange.getRequest()
                 .getHeaders()

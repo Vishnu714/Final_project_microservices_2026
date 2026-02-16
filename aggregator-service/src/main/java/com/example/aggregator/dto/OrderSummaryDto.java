@@ -1,5 +1,6 @@
 package com.example.aggregator.dto;
 
-public class OrderSummaryDto {
-
-}
+public record OrderSummaryDto(
+	Long orderId,
+	String status
+) {}

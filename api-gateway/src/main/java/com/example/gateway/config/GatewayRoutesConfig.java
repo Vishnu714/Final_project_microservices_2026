@@ -28,8 +28,10 @@ public class GatewayRoutesConfig {
                 .route("order", r -> r
                         .path("/api/v1/orders/**")
                         .uri("lb://order-service"))
-
-
+                
+                .route("order", r -> r
+                        .path("/api/v1/aggregate/**")
+                        .uri("lb://aggregator-service"))
                 .build();
     }
 }

@@ -23,19 +23,36 @@ public class SecurityConfig {
 
         return http
                 .csrf(csrf -> csrf.disable())
-                    .authorizeExchange(exchange -> exchange
-                        .pathMatchers(HttpMethod.POST, "/products/**")
-                            .hasRole("ADMIN")
-                        .pathMatchers(HttpMethod.PUT, "/products/**")
-                            .hasRole("ADMIN")
-                        .pathMatchers(HttpMethod.DELETE, "/products/**")
-                            .hasRole("ADMIN")
-                        .pathMatchers(HttpMethod.GET, "/products/**")
-                            .hasAnyRole("USER", "ADMIN")
-                            .anyExchange().authenticated()
+                .authorizeExchange(exchange -> exchange
+
+                        // AUTH SERVICE (public)
+                        .pathMatchers("/api/v1/auth/**").permitAll()
+
+                        // PRODUCT SERVICE
+                        .pathMatchers(HttpMethod.POST, "/api/v1/products/**").hasRole("ADMIN")
+                        .pathMatchers(HttpMethod.PUT, "/api/v1/products/**").hasRole("ADMIN")
+                        .pathMatchers(HttpMethod.DELETE, "/api/v1/products/**").hasRole("ADMIN")
+                        .pathMatchers(HttpMethod.GET, "/api/v1/products/**")
+                                .hasAnyRole("USER", "ADMIN")
+
+                        // INVENTORY SERVICE
+                        .pathMatchers("/api/v1/inventory/**").hasRole("ADMIN")
+
+                        // ORDER SERVICE
+                        .pathMatchers(HttpMethod.POST, "/api/v1/orders/**")
+                                .hasAnyRole("USER", "ADMIN")
+                        .pathMatchers(HttpMethod.GET, "/api/v1/orders/**")
+                                .hasAnyRole("USER", "ADMIN")
+                        .pathMatchers(HttpMethod.PUT, "/api/v1/orders/**")
+                                .hasRole("ADMIN")
+
+                        // AGGREGATOR SERVICE
+                        .pathMatchers("/api/v1/aggregator/**").hasAnyRole("USER", "ADMIN")
+
+
+                        .anyExchange().authenticated()
                 )
                 .addFilterBefore(jwtFilter, SecurityWebFiltersOrder.AUTHENTICATION)
                 .build();
     }
 }
-// # session less
