@@ -13,6 +13,7 @@ import com.example.order.repository.OrderStatusRepository;
 
 import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -159,14 +160,29 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-public List<OrderResponseDto> getOrdersByProduct(Long productId) {
+    public List<OrderResponseDto> getOrdersByProduct(Long productId) {
 
-    return orderRepo.findAll().stream()
-            .filter(order ->
-                    order.getItems().stream()
+        return orderRepo.findAll().stream()
+                .filter(order ->
+                        order.getItems().stream()
                             .anyMatch(i -> i.getProductId().equals(productId)))
-            .map(this::mapToResponse)
-            .toList();
-}
+                .map(this::mapToResponse)
+                .toList();
+    }
+
+
+    @Component
+    public class OrderStatusInitializer {
+
+        public OrderStatusInitializer(OrderStatusRepository repo) {
+            if (repo.count() == 0) {
+            repo.save(new OrderStatus(null, "CREATED"));
+            repo.save(new OrderStatus(null, "SHIPPED"));
+            repo.save(new OrderStatus(null, "DELIVERED"));
+            repo.save(new OrderStatus(null, "CANCELLED"));
+            }
+        }
+    }
+
 
 }
