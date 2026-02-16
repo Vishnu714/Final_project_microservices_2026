@@ -26,7 +26,7 @@ public class GatewayRoutesConfig {
                         .uri("lb://auth-service"))
 
                 .route("order", r -> r
-                        .path("/api/v1/order/**")
+                        .path("/api/v1/orders/**")
                         .uri("lb://order-service"))
 
 

@@ -1,5 +1,6 @@
 package com.example.order.dto;
 
-public class ShipmentDto {
-
-}
+public record ShipmentDto(
+        String address,
+        String trackingNumber
+) {}

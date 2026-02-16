@@ -1,21 +1,23 @@
-package com.example.order.model;
+package com.example.order.audit;
 
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "order_status")
+@Table(name = "audit_logs")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderStatus {
+public class AuditLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
-    private String name; // CREATED, SHIPPED, CANCELLED
+    private String entityName;
+    private Long entityId;
+    private String action;
+    private Long changedBy;
 }

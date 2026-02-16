@@ -1,5 +1,7 @@
 package com.example.order.repository;
 
-public interface ShipmentRepository {
+import com.example.order.model.Shipment;
+import org.springframework.data.jpa.repository.JpaRepository;
 
+public interface ShipmentRepository extends JpaRepository<Shipment, Long> {
 }
