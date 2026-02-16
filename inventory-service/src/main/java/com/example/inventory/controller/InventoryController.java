@@ -6,7 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/inventory")
+@RequestMapping("/api/v1/inventory")
 public class InventoryController {
 
     private final InventoryService service;

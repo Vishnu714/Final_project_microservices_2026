@@ -14,16 +14,21 @@ public class GatewayRoutesConfig {
         return builder.routes()
 
                 .route("product", r -> r
-                        .path("/products/**")
+                        .path("/api/v1/products/**")
                         .uri("lb://product-service"))
 
                 .route("inventory", r -> r
-                        .path("/inventory/**")
+                        .path("/api/v1/inventory/**")
                         .uri("lb://inventory-service"))
 
                 .route("auth", r -> r
-                        .path("/auth/**")
+                        .path("/api/v1/auth/**")
                         .uri("lb://auth-service"))
+
+                .route("order", r -> r
+                        .path("/api/v1/order/**")
+                        .uri("lb://order-service"))
+
 
                 .build();
     }
