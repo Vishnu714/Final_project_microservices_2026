@@ -47,7 +47,7 @@ public class SecurityConfig {
                                 .hasRole("ADMIN")
 
                         // AGGREGATOR SERVICE
-                        .pathMatchers("/api/v1/aggregator/**").hasAnyRole("USER", "ADMIN")
+                        .pathMatchers("/api/v1/aggregate/**").hasAnyRole("USER", "ADMIN")
 
 
                         .anyExchange().authenticated()

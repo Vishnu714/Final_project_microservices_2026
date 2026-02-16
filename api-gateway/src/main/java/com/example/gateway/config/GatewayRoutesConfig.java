@@ -29,7 +29,7 @@ public class GatewayRoutesConfig {
                         .path("/api/v1/orders/**")
                         .uri("lb://order-service"))
                 
-                .route("order", r -> r
+                .route("aggregate", r -> r
                         .path("/api/v1/aggregate/**")
                         .uri("lb://aggregator-service"))
                 .build();

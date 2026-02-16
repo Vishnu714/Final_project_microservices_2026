@@ -16,7 +16,7 @@ import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
-
+import java.util.Map;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -157,4 +157,16 @@ public class OrderServiceImpl implements OrderService {
                         : null
         );
     }
+
+    @Override
+public List<OrderResponseDto> getOrdersByProduct(Long productId) {
+
+    return orderRepo.findAll().stream()
+            .filter(order ->
+                    order.getItems().stream()
+                            .anyMatch(i -> i.getProductId().equals(productId)))
+            .map(this::mapToResponse)
+            .toList();
+}
+
 }

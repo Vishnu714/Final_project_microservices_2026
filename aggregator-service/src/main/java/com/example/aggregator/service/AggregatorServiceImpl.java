@@ -5,7 +5,7 @@ import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-
+import org.springframework.http.HttpHeaders;
 import java.util.Arrays;
 import java.util.List;
 
@@ -43,20 +43,21 @@ public class AggregatorServiceImpl implements AggregatorService {
 			throwable -> null
 		);
 
-	Object inventory =
-		inventoryCB.run(() ->
-			webClient.get()
-				.uri("lb://inventory-service/api/v1/inventory/" + productId)
-				.retrieve()
-				.bodyToMono(Integer.class)
-				.block(),
-			throwable -> "Unavailable"
-		);
+	Integer inventory =
+        inventoryCB.run(() ->
+            webClient.get()
+                .uri("lb://inventory-service/api/v1/inventory/" + productId)
+                .retrieve()
+                .bodyToMono(InventoryResponseDto.class)
+                .block()
+            .   getQuantity(),
+            throwable -> null
+        );
 
 	OrderSummaryDto[] orders =
 		orderCB.run(() ->
 			webClient.get()
-				.uri("lb://order-service/api/v1/orders/product/" + productId)
+				.uri("lb://order-service/api/v1/orders/by-product/" + productId)
 				.retrieve()
 				.bodyToMono(OrderSummaryDto[].class)
 				.block(),

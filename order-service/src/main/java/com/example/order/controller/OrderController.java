@@ -6,7 +6,7 @@ import com.example.order.service.OrderService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.List;
 @RestController
 @RequestMapping("/api/v1/orders")
 public class OrderController {
@@ -36,4 +36,10 @@ public class OrderController {
             @RequestParam String newStatus) {
         return service.updateStatus(id, newStatus);
     }
+
+    @GetMapping("/by-product/{productId}")
+    public List<OrderResponseDto> getOrdersByProduct(@PathVariable Long productId) {
+        return service.getOrdersByProduct(productId);
+}
+
 }
