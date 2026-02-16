@@ -5,23 +5,6 @@ spring:
   application:
     name: api-gateway
 
-  cloud:
-    gateway:
-      routes:
-        - id: product
-          uri: lb://product-service
-          predicates:
-            - Path=/products/**
-        - id: inventory
-          uri: lb://inventory-service
-          predicates:
-            - Path=/inventory/**
-        - id: auth
-          uri: lb://auth-service
-          predicates:
-            - Path=/auth/**
-# put the routes to a java configuration class
-
 eureka:
   client:
     service-url:
