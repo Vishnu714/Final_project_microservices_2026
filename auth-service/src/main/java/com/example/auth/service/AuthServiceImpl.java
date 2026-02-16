@@ -35,7 +35,7 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("Username already exists");
         }
 
-        // Ensure both roles exist in DB
+      
         Role userRole = roleRepo.findByName("ROLE_USER")
                 .orElseGet(() ->
                         roleRepo.save(new Role(null, "ROLE_USER")));
@@ -44,7 +44,7 @@ public class AuthServiceImpl implements AuthService {
                 .orElseGet(() ->
                         roleRepo.save(new Role(null, "ROLE_ADMIN")));
 
-        // 🔥 Assign ADMIN only if username is "admin"
+     
         Role assignedRole;
 
         if (request.username().equalsIgnoreCase("admin")) {
