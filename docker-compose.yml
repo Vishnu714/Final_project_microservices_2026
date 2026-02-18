@@ -24,6 +24,9 @@ services:
       - "8761:8761"
     depends_on:
       - config-server
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+
 
   postgres:
     image: postgres:15
@@ -102,6 +105,9 @@ services:
     depends_on:
       - config-server
       - service-registry
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+
 
   api-gateway:
     build:
@@ -113,3 +119,6 @@ services:
     depends_on:
       config-server:
         condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+

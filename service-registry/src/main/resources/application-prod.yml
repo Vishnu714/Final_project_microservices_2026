@@ -1,0 +1,12 @@
+spring:
+  config:
+    import: configserver:http://config-server:8888
+
+  cloud:
+    config:
+      fail-fast: true
+      retry:
+        initial-interval: 2000
+        max-attempts: 10
+        max-interval: 5000
+        multiplier: 1.5
