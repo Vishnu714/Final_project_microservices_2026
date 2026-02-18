@@ -1,81 +1,115 @@
-version: '3.8'
+version: "3.9"
 
 services:
 
+  config-server:
+    build:
+      context: .
+      dockerfile: config-server/Dockerfile
+    container_name: config-server
+    ports:
+      - "8888:8888"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   service-registry:
-    build: ./service-registry
+    build:
+      context: .
+      dockerfile: service-registry/Dockerfile
     container_name: service-registry
     ports:
       - "8761:8761"
+    depends_on:
+      - config-server
 
-  config-server:
-  build: ./config-server
-  container_name: config-server
-  ports:
-    - "8888:8888"
-  volumes:
-    - ./config-server/configurations:/app/configurations
-  depends_on:
-    - service-registry
-
-
-  api-gateway:
-    build: ./api-gateway
-    container_name: api-gateway
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     ports:
-      - "8080:8080"
+      - "5432:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  product-service:
+    build:
+      context: .
+      dockerfile: product-service/Dockerfile
+    container_name: product-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - config-server
+      - service-registry
+      - postgres
     environment:
       - SPRING_PROFILES_ACTIVE=prod
+
+  inventory-service:
+    build:
+      context: .
+      dockerfile: inventory-service/Dockerfile
+    container_name: inventory-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - config-server
+      - service-registry
+      - postgres
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+
+  order-service:
+    build:
+      context: .
+      dockerfile: order-service/Dockerfile
+    container_name: order-service
+    ports:
+      - "8084:8084"
+    depends_on:
+      - config-server
+      - service-registry
+      - postgres
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+
+  auth-service:
+    build:
+      context: .
+      dockerfile: auth-service/Dockerfile
+    container_name: auth-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - config-server
+      - service-registry
+      - postgres
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+
+  aggregator-service:
+    build:
+      context: .
+      dockerfile: aggregator-service/Dockerfile
+    container_name: aggregator-service
+    ports:
+      - "8085:8085"
     depends_on:
       - config-server
       - service-registry
 
-  auth-service:
-    build: ./auth-service
-    container_name: auth-service
+  api-gateway:
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
+    container_name: api-gateway
     ports:
-      - "8084:8084"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
+      - "8080:8080"
     depends_on:
-      - service-registry
-
-  product-service:
-    build: ./product-service
-    container_name: product-service
-    ports:
-      - "8081:8081"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
-    depends_on:
-      - service-registry
-
-  order-service:
-    build: ./order-service
-    container_name: order-service
-    ports:
-      - "8082:8082"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
-    depends_on:
-      - service-registry
-
-  inventory-service:
-    build: ./inventory-service
-    container_name: inventory-service
-    ports:
-      - "8083:8083"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
-    depends_on:
-      - service-registry
-
-  aggregator-service:
-    build: ./aggregator-service
-    container_name: aggregator-service
-    ports:
-      - "8085:8085"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
-    depends_on:
-      - service-registry
+      config-server:
+        condition: service_healthy

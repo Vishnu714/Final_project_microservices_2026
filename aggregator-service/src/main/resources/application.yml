@@ -1,5 +1,14 @@
 spring:
-    application:
-        name: aggregator-service
+  application:
+    name: aggregator-service  
+  config:
+    import: configserver:http://config-server:8888
+
+  cloud:
     config:
-        import: optional:configserver:http://localhost:8888
+      fail-fast: true
+      retry:
+        initial-interval: 2000
+        max-attempts: 10
+        max-interval: 5000
+        multiplier: 1.5

@@ -1,7 +1,14 @@
 spring:
-    application:
-        name: order-service
+  application:
+    name: order-service  
+  config:
+    import: configserver:http://config-server:8888
+
+  cloud:
     config:
-        import: optional:configserver:http://localhost:8888
-    profiles:
-        active: dev 
+      fail-fast: true
+      retry:
+        initial-interval: 2000
+        max-attempts: 10
+        max-interval: 5000
+        multiplier: 1.5
