@@ -219,15 +219,8 @@ project-configurations - Github repo
 ## 🚀 Future Improvements
 
 * Full CI/CD automation
-
 * Centralized logging (Splunk / ELK)
 * Distributed tracing
-* Message broker (Kafka) for async order events
 
----
-
-## 👨‍💻 Author
-
-Built as a Capstone Microservices Project demonstrating enterprise patterns and production-ready architecture.
 
 
