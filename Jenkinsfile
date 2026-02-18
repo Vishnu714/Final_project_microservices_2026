@@ -17,13 +17,7 @@ pipeline {
 
         stage('Build Product Service') {
             steps {
-                sh 'mvn clean package -pl product-service -am -DskipTests=false'
-            }
-        }
-
-        stage('Run Tests') {
-            steps {
-                sh 'mvn test -pl product-service'
+                sh 'mvn clean package -pl product-service -am -Dspring.profiles.active=ci'
             }
         }
 
