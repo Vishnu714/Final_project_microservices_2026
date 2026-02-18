@@ -1,6 +1,6 @@
 
 
-# 🚀 Microservices E-Commerce Backend (Java 17 + Spring Boot)
+# 🚀 Microservices Backend (Java 17 + Spring Boot)
 
 ## 📌 Overview
 
