@@ -4,7 +4,7 @@
 
 ## 📌 Overview
 
-This project is a **Microservices-based E-Commerce Backend System** built using **Java 17**, **Spring Boot**, and **Spring Cloud**.
+This project is a **Microservices-based Backend System** built using **Java 17**, **Spring Boot**, and **Spring Cloud**.
 
 It demonstrates:
 
